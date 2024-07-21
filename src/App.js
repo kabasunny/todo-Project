@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React, { useState, useRef } from 'react';
+import TodoList from './TodoList';
 import './App.css';
 
 function App() {
+  const [todos, setTodos] = useState([{id:1, name:'Todo1', completed: false},]);
+
+  const todoNameRef = useRef();
+
+  const handleAddTodo = () => {
+    const name = todoNameRef.current.value;
+    setTodos((prevTodos) => {
+      return [...prevTodos, { id: "1", name: name, completed: false}];
+    })
+    todoNameRef.current.value = null;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div>
+    <TodoList todos={todos}/>
+    <input type='text' ref={todoNameRef} />
+    <button onClick={handleAddTodo}>タスクを追加</button>
+    <button>完了したタスクを追加</button>
+    <div>残りのタスク:0</div>
+  </div>
   );
 }
 
